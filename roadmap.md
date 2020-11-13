@@ -12,16 +12,16 @@ and things that have been completed.
 
 
 # Need to Implement:
-- Class for stars
-    - Extended class for binary stars
-- Class for asteroids
+- Extended class for binary stars
 - Class for black holes
 - Figure out the way that movement out of and into the system will work
 - Math for updating accelerations / velocities / positions in a timely manner
 - Math for collisions 
     - Mechanics for sticking objects together upon collision 
+- Center of mass for asteroid attraction instead of elementwise
 
 
 
 # Implemented:
-- 
+- Class for stars
+- Class for asteroids
