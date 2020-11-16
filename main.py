@@ -70,7 +70,6 @@ if __name__ == "__main__":
     # Animate the simulation
     while True:
         mov.update_positions(PLANETESIMALS, STARS)
-        #mov.bounding_box(PLANETESIMALS, bounds)
-        #mov.bounding_box(STARS, bounds)
-        #TODO: Asteroid-asteroid collisions
+        mov.bounding_box(PLANETESIMALS, bounds)
+        mov.bounding_box(STARS, bounds)
         vp.rate(10)

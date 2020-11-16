@@ -50,4 +50,3 @@ def absorb(a: vp.sphere, b: vp.sphere):
     a.mass = new_mass
     a.vel = new_vel
     a.radius = new_radius
-

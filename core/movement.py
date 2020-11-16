@@ -88,7 +88,6 @@ def single_group_collisions(bodies: list):
         # Kill the bad indices
         kill_bodies_at_indices(bodies, bad_indices)
 
-
 def small_large_collisions(smalls: list, larges: list):
     """Handles collisions between asteroids and stars."""
     # Keep track of the bad indices
@@ -111,7 +110,6 @@ def trim_collisions(smalls: list, larges: list):
     single_group_collisions(smalls)
     single_group_collisions(larges)
             
-
 def update_positions(smalls: list, larges: list):
     """Updates the positions of the celestial objects in smalls and larges;
         takes into account current velocity and gravitational attraction."""
@@ -124,3 +122,16 @@ def update_positions(smalls: list, larges: list):
         large.pos += large.vel*dt
     # Check for and handle any collisions between objects
     trim_collisions(smalls, larges)
+
+def bounding_box(bodies: list, bounds: tuple):
+    """Keeps the bodies within the simulation bounds."""
+    bad_indices = list()
+    x, y, z = bounds 
+    for i,body in enumerate(bodies):
+        # If the body is not in bounds, add it to the kill list
+        if not (-x <= body.pos.x <= x \
+            and -y <= body.pos.y <= y \
+            and -z <= body.pos.z <= z):
+            bad_indices.append(i)
+    # Get rid of the bodies outside bounds
+    kill_bodies_at_indices(bodies, bad_indices)
