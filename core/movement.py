@@ -5,11 +5,12 @@ Collection of useful methods
 '''
 
 # Python packages
+from os import kill
 import numpy as np 
 import vpython as vp 
 # Import constants from main file
 from main import dt, G
-from .utilities import distance
+from .utilities import collide, distance, kill_bodies_at_indices, absorb
 from .celestials import create_planetesimal
 
 
@@ -31,9 +32,12 @@ def condense_asteroids(bodies: list) -> vp.sphere:
         pos += body.pos 
         mass += body.mass 
     # Average the values and return a new asteroid object as the phantom object
-    pos = pos / len(bodies)
-    mass = mass / len(bodies)
-    return create_planetesimal(pos=pos, mass=mass)
+    if len(bodies) > 0:
+        pos = pos / len(bodies)
+        mass = mass / len(bodies)
+        return create_planetesimal(pos=pos, mass=mass)
+    elif len(bodies) <= 0:
+        return create_planetesimal(pos=(0,0,0), mass=0)
 
 def get_accelerations(smalls: list, larges: list) -> np.ndarray:
     """Given a list of celestial bodies, returns a numpy array containing the 
@@ -69,13 +73,44 @@ def update_velocities(smalls: list, larges: list):
         body.vel += accelerations[i]*dt
     return
 
+def single_group_collisions(bodies: list):
+    """Handles collisions between bodies of the same type."""
+    bad_indices = list()
+    for i,a in enumerate(bodies):
+        for j,b in enumerate(bodies):
+            # Disregard "self-collisions"
+            if a is b: 
+                continue
+            # Handle a collision
+            if collide(a, b):
+                absorb(a, b)
+                bad_indices.append(j)
+        # Kill the bad indices
+        kill_bodies_at_indices(bodies, bad_indices)
+
+
+def small_large_collisions(smalls: list, larges: list):
+    """Handles collisions between asteroids and stars."""
+    # Keep track of the bad indices
+    bad_indices = list()
+    # Now check for collisions between small objects and large
+    for i,small in enumerate(smalls):
+        for j,large in enumerate(larges):
+            if collide(small, large):
+                bad_indices.append(i)
+    # Remove the small collisions
+    kill_bodies_at_indices(smalls, bad_indices)
+
 def trim_collisions(smalls: list, larges: list):
     """Checks for and reconciles collisions between objects.
         If two large items collide, they'll join together.
         If two small items collide, they'll join together.
         If a small item collides with a large, the small will be
             absorbed by the large."""
-    return
+    small_large_collisions(smalls, larges)
+    single_group_collisions(smalls)
+    single_group_collisions(larges)
+            
 
 def update_positions(smalls: list, larges: list):
     """Updates the positions of the celestial objects in smalls and larges;

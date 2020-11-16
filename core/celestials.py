@@ -82,7 +82,7 @@ def create_planetesimal(pos=(0, 0, 0), mass=3.93E17, radius=500,
                     make_trail = True,
                     trail_type = 'curve',
                     interval = 5,
-                    retain = 5,
+                    retain = 3,
                     trail_color = tuple_to_vec(color))
 
 def create_random_planetesimal(bounds: tuple) -> vp.sphere:
@@ -105,7 +105,9 @@ def create_random_planetesimal(bounds: tuple) -> vp.sphere:
     # Tie the radius to the mass, based on the default radius and mass
     radius = mass * (500 / 3.93E17) * 1E6
     # Random velocity 
-    vel = (np.random.rand()*1E4, np.random.rand()*1E4, np.random.rand()*1E4) #TODO: Check velocities
+    vel = (np.random.rand()*1E4 * np.random.choice([1, -1]), 
+            np.random.rand()*1E4 * np.random.choice([1, -1]), 
+            np.random.rand()*1E4 * np.random.choice([1, -1])) #TODO: Check velocities
     # Gray color
     color = (0.5, 0.5, 0.5)
     return create_planetesimal(pos, mass, radius, vel, color)

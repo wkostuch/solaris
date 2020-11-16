@@ -55,10 +55,10 @@ if __name__ == "__main__":
     y_axis = vp.curve(pos=[vp.vec(0,0,0), vp.vec(0,AXIS_LENGTH,0)], color=vp.vec(0,1,0))
     z_axis = vp.curve(pos=[vp.vec(0,0,0), vp.vec(0,0,AXIS_LENGTH)], color=vp.vec(0,0,1))
     # Start populating the scene
-    create_system(x_bound=15, y_bound=15, z_bound=15)
+    create_system(x_bound=5, y_bound=5, z_bound=5)
     bounds = (X_LIMIT, Y_LIMIT, Z_LIMIT)
     # Make some planetesimals
-    for i in range(1000):
+    for i in range(110):
         p = celest.create_random_planetesimal(bounds=bounds)
         PLANETESIMALS.append(p)
     # Make some stars
@@ -70,5 +70,7 @@ if __name__ == "__main__":
     # Animate the simulation
     while True:
         mov.update_positions(PLANETESIMALS, STARS)
-        mov.update_positions(STARS, STARS)
+        #mov.bounding_box(PLANETESIMALS, bounds)
+        #mov.bounding_box(STARS, bounds)
+        #TODO: Asteroid-asteroid collisions
         vp.rate(10)
