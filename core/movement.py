@@ -75,13 +75,14 @@ def update_velocities(smalls: list, larges: list):
 
 def single_group_collisions(bodies: list):
     """Handles collisions between bodies of the same type."""
-    bad_indices = list()
     for i,a in enumerate(bodies):
+        bad_indices = list()
         for j,b in enumerate(bodies):
             # Disregard "self-collisions"
             if a is b: 
                 continue
             # Handle a collision
+            #TODO Special case for stars?
             if collide(a, b):
                 absorb(a, b)
                 bad_indices.append(j)
@@ -128,10 +129,11 @@ def bounding_box(bodies: list, bounds: tuple):
     bad_indices = list()
     x, y, z = bounds 
     for i,body in enumerate(bodies):
+        #TODO: Make this a sphere instead
         # If the body is not in bounds, add it to the kill list
-        if not (-x <= body.pos.x <= x \
-            and -y <= body.pos.y <= y \
-            and -z <= body.pos.z <= z):
+        if not (-x*1.1 <= body.pos.x <= x*1.1 \
+            and -y*1.1 <= body.pos.y <= y*1.1 \
+            and -z*1.1 <= body.pos.z <= z*1.1):
             bad_indices.append(i)
     # Get rid of the bodies outside bounds
     kill_bodies_at_indices(bodies, bad_indices)

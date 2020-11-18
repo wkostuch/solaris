@@ -55,21 +55,24 @@ if __name__ == "__main__":
     y_axis = vp.curve(pos=[vp.vec(0,0,0), vp.vec(0,AXIS_LENGTH,0)], color=vp.vec(0,1,0))
     z_axis = vp.curve(pos=[vp.vec(0,0,0), vp.vec(0,0,AXIS_LENGTH)], color=vp.vec(0,0,1))
     # Start populating the scene
-    create_system(x_bound=5, y_bound=5, z_bound=5)
+    create_system(x_bound=15, y_bound=15, z_bound=15)
     bounds = (X_LIMIT, Y_LIMIT, Z_LIMIT)
     # Make some planetesimals
-    for i in range(110):
+    for i in range(50):
         p = celest.create_random_planetesimal(bounds=bounds)
         PLANETESIMALS.append(p)
     # Make some stars
-    for i in range(3):
+    for i in range(15):
         s = celest.create_random_star(bounds=bounds)
         STARS.append(s)
 
-
+    count = 0
     # Animate the simulation
     while True:
+        if count % 20 is 0:
+            print(f"Planetesimals: {len(PLANETESIMALS)}  |  Stars: {len(STARS)}")
         mov.update_positions(PLANETESIMALS, STARS)
         mov.bounding_box(PLANETESIMALS, bounds)
         mov.bounding_box(STARS, bounds)
         vp.rate(10)
+        count += 1

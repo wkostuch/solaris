@@ -103,7 +103,7 @@ def create_random_planetesimal(bounds: tuple) -> vp.sphere:
     # Random mass ranging from 0.1x the mass of the default planetesimal to 15x
     mass = int(np.random.randint(low=1, high=150)/10) * 3.93E17
     # Tie the radius to the mass, based on the default radius and mass
-    radius = mass * (500 / 3.93E17) * 1E6
+    radius = mass * (500 / 3.93E17) * 1E5
     # Random velocity 
     vel = (np.random.rand()*1E4 * np.random.choice([1, -1]), 
             np.random.rand()*1E4 * np.random.choice([1, -1]), 
