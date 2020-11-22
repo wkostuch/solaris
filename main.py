@@ -29,7 +29,6 @@ Z_LIMIT = AU
 BODIES = list()
 STARS = list()
 PLANETESIMALS = list() 
-#TODO: Rewrite the movement functions for stars and planets
 
 
 def create_system(x_bound=15, y_bound=15, z_bound=15):
@@ -61,16 +60,15 @@ if __name__ == "__main__":
     for i in range(50):
         p = celest.create_random_planetesimal(bounds=bounds)
         PLANETESIMALS.append(p)
-    # Make some stars
-    for i in range(15):
-        s = celest.create_random_star(bounds=bounds)
-        STARS.append(s)
+    # Make a binary system
+    STARS = celest.create_binary_system(bounds=bounds)
 
     count = 0
     # Animate the simulation
     while True:
-        if count % 20 is 0:
+        if count % 200 is 0:
             print(f"Planetesimals: {len(PLANETESIMALS)}  |  Stars: {len(STARS)}")
+            count = 0
         mov.update_positions(PLANETESIMALS, STARS)
         mov.bounding_box(PLANETESIMALS, bounds)
         mov.bounding_box(STARS, bounds)
