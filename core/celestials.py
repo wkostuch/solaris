@@ -14,6 +14,8 @@ MASS_EARTH = 1.99E30
 RADIUS_EARTH = 6.96E8
 MASS_PLANETESIMAL = 3.93E17
 RADIUS_PLANETESIMAL = 500
+AU = 1.496E11
+G = 6.67E-11
 
 '''
 STARS
@@ -56,9 +58,27 @@ def create_random_star(bounds: tuple,) -> vp.sphere:
     radius = mass * (6.96E8 / 1.99E30)
     # No velocity as the star is stationary
     vel = (0, 0, 0)
-    # Random color
-    color = (np.random.rand(), np.random.rand(), 0)
+    # Color the star according to size: RGB
+    if mass > 75*1.99E30:
+        color = (0, 0, np.random.rand())
+    elif mass <= 75*1.99E30:
+        color = (np.random.rand(), 0, 0)
     return create_star(pos, mass, radius, vel, color)
+
+def create_binary_system(bounds: tuple) -> list:
+    """Creates a binary system and returns the two stars in a list."""
+    x_bound, y_bound, z_bound = bounds
+    star_A = create_star(pos=(1*AU, 0, 0), 
+                        mass=4*1.99E30,
+                        vel=(0, 0, 0),
+                        radius=4E10)
+    star_B = create_star(pos=(-4*AU, 0, 0),
+                        mass=1.99E30,
+                        vel=(0,0,0),
+                        radius=4E10)
+    star_A.vel = vp.vec(0, 0.1 * vp.sqrt((G*(star_A.mass + star_B.mass)) / (2*AU)), 0)
+    star_B.vel = -star_A.mass / star_B.mass * star_A.vel
+    return [star_A, star_B]
 
 
 '''
