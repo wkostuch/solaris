@@ -131,9 +131,9 @@ def bounding_box(bodies: list, bounds: tuple):
     for i,body in enumerate(bodies):
         #TODO: Make this a sphere instead
         # If the body is not in bounds, add it to the kill list
-        if not (-x*1.1 <= body.pos.x <= x*1.1 \
-            and -y*1.1 <= body.pos.y <= y*1.1 \
-            and -z*1.1 <= body.pos.z <= z*1.1):
+        if not (-x*1.5 <= body.pos.x <= x*1.5 \
+            and -y*1.5 <= body.pos.y <= y*1.5 \
+            and -z*1.5 <= body.pos.z <= z*1.5):
             bad_indices.append(i)
     # Get rid of the bodies outside bounds
     kill_bodies_at_indices(bodies, bad_indices)

@@ -44,7 +44,6 @@ def absorb(a: vp.sphere, b: vp.sphere):
         new_radius = new_mass * (6.96E8 / 1.99E30)
     # Set radius for planetesimals
     if a.type is 'planetesimal' and b.type is 'planetesimal':
-        print("Hit!")
         new_radius = new_mass * (500 / 3.93E17) * 1E5
     # Update a with the new values 
     a.mass = new_mass
