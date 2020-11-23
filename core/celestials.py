@@ -33,7 +33,7 @@ def create_star(pos=(0, 0, 0), mass=1.99E30, radius=6.96E8,
                     type = 'star',
                     make_trail = True,
                     trail_type = 'curve',
-                    interval = 10,
+                    interval = 20,
                     retain = 100,
                     trail_color = tuple_to_vec(color))
 
@@ -75,7 +75,8 @@ def create_binary_system(bounds: tuple) -> list:
     star_B = create_star(pos=(-4*AU, 0, 0),
                         mass=1.99E30,
                         vel=(0,0,0),
-                        radius=4E10)
+                        radius=2E10,
+                        color=(1, 0, 0))
     star_A.vel = vp.vec(0, 0.1 * vp.sqrt((G*(star_A.mass + star_B.mass)) / (2*AU)), 0)
     star_B.vel = -star_A.mass / star_B.mass * star_A.vel
     return [star_A, star_B]

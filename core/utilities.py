@@ -7,6 +7,9 @@ Various utility methods
 import numpy as np 
 import vpython as vp 
 
+# Constants
+AU = 1.496E11
+
 def tuple_to_vec(t: tuple) -> vp.vec:
     """Converts a 3-dimensional tuple to a VPython vector."""
     return vp.vec(t[0], t[1], t[2])
@@ -49,3 +52,19 @@ def absorb(a: vp.sphere, b: vp.sphere):
     a.mass = new_mass
     a.vel = new_vel
     a.radius = new_radius
+
+def average_distance_to_object(bodies: list, big_object: vp.sphere) -> float:
+    """Returns the average distance from each body in bodies to big_object."""
+    avg_distance = 0 
+    for body in bodies:
+        avg_distance += distance(body, big_object)
+    avg_distance = avg_distance / len(bodies)
+    return avg_distance / AU
+
+def average_asteroid_mass(bodies: list) -> float:
+    """Returns the average mass of the objects in bodies."""
+    avg_mass = 0
+    for body in bodies:
+        avg_mass += body.mass 
+    avg_mass = avg_mass / len(bodies)
+    return avg_mass
